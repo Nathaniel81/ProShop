@@ -6,10 +6,9 @@ const HomeScreen = () => {
   return (
     <div>
       <Row>
-        {products.map((p) => (
-          <Col key={p._id} sm={12} md={6} lg={4} xl={3}>
-            {/* <h3>{p.name}</h3> */}
-			<Products />
+        {products.map((product) => (
+          <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+			<Products product={product}/>
           </Col>
         ))}
       </Row>
