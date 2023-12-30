@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { Card } from 'react-bootstrap';
 import Rating from './Rating';
-
+import {Link} from 'react-router-dom';
 
 const Products = ({ product }) => {
   return (
     <Card className='my-3 p-3 rounded'>
-      <a href={`/product/${product._id}`}>
+      <Link to={`/product/${product._id}`}>
         <Card.Img src={product.image} />
         <Card.Body>
           <Card.Title as="div">
@@ -23,7 +23,7 @@ const Products = ({ product }) => {
             ${product.price}
           </Card.Text>
         </Card.Body>
-      </a>
+      </Link>
     </Card>
   );
 };
