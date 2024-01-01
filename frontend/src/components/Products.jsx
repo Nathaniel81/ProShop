@@ -34,7 +34,7 @@ Products.propTypes = {
 	_id: PropTypes.string.isRequired,
 	name: PropTypes.string.isRequired,
 	image: PropTypes.string.isRequired,
-	price: PropTypes.number.isRequired,
+	price: PropTypes.string.isRequired,
 	rating: PropTypes.number.isRequired,
 	numReviews: PropTypes.number.isRequired,
 
