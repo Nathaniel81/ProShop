@@ -10,7 +10,6 @@ const Rating = ({ value, text, color }) => (
                             ? 'fas fa-star-half-alt'
                             : 'far fa-star'
                 }>
-
                 </i>
             </span>
 
@@ -66,7 +65,7 @@ const Rating = ({ value, text, color }) => (
         </div>
 )
 Rating.propTypes = {
-	value: PropTypes.number.isRequired,
+	value: PropTypes.number,
 	text: PropTypes.string,
 	color: PropTypes.string.isRequired,
   };

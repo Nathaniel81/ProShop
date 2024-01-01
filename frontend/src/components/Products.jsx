@@ -31,11 +31,11 @@ const Products = ({ product }) => {
 
 Products.propTypes = {
 	product: PropTypes.shape({
-	_id: PropTypes.string.isRequired,
+	_id: PropTypes.number.isRequired,
 	name: PropTypes.string.isRequired,
 	image: PropTypes.string.isRequired,
 	price: PropTypes.string.isRequired,
-	rating: PropTypes.number.isRequired,
+	rating: PropTypes.number,
 	numReviews: PropTypes.number.isRequired,
 
 	}).isRequired,
