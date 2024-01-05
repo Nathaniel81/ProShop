@@ -32,3 +32,8 @@ class GetUserProfile(generics.RetrieveAPIView):
     serializer_class = UserSerializer
     def get_object(self):
         return self.request.user
+
+@permission_classes([IsAuthenticated, IsAdminUser])
+class GetAllUsers(generics.ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
