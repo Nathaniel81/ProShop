@@ -13,7 +13,7 @@ import {
     try {
         dispatch({ type: PRODUCT_LIST_REQUEST })
 
-        const { data } = await axios.get(` http://127.0.0.1:8000/api/products${keyword}`)
+        const { data } = await axios.get(`http://127.0.0.1:8000/api/products${keyword}`)
 
         dispatch({
             type: PRODUCT_LIST_SUCCESS,
@@ -34,7 +34,7 @@ export const listProduct = (id) => async (dispatch) => {
     try {
         dispatch({ type: PRODUCT_DETAIL_REQUEST })
 
-        const { data } = await axios.get(` http://127.0.0.1:8000/api/product/${id}`)
+        const { data } = await axios.get(`http://127.0.0.1:8000/api/products/detail/${id}/`)
 
         dispatch({
             type: PRODUCT_DETAIL_SUCCESS,
