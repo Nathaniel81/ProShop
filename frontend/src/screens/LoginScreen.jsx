@@ -23,7 +23,6 @@ function LoginScreen() {
 
     useEffect(() => {
         if (userInfo && userInfo.token) {
-			console.log('Navigating to /')
             navigate(redirect);
         }
     }, [navigate, userInfo, redirect]);
