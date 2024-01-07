@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import Loader from '../components/Loader';
@@ -16,19 +16,17 @@ function LoginScreen() {
 
     const dispatch = useDispatch();
 
-    // Extract redirect from query parameters using the useLocation hook
-    // const redirect = new URLSearchParams(location.search).get('redirect') || '/';
+    const redirect = new URLSearchParams(location.search).get('redirect') || '/';
 
     const userLogin = useSelector(state => state.userLogin);
     const { error, loading, userInfo } = userLogin;
 
     useEffect(() => {
         if (userInfo && userInfo.token) {
-            // Use navigate function for redirection
 			console.log('Navigating to /')
-            navigate('/');
+            navigate(redirect);
         }
-    }, [navigate, userInfo]);
+    }, [navigate, userInfo, redirect]);
 
     const submitHandler = (e) => {
         e.preventDefault();
@@ -68,7 +66,7 @@ function LoginScreen() {
 
             <Row className='py-3'>
                 <Col>
-                    {/* New Customer? <Link to={redirect ? `/register?redirect=${redirect}` : '/register'}>Register</Link> */}
+                    New Customer? <Link to='/register'>Register</Link>
                 </Col>
             </Row>
         </FormContainer>

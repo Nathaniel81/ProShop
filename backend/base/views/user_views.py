@@ -27,7 +27,7 @@ class RegistrationView(generics.CreateAPIView):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializedData = serializer.save()
+        serializedData = serializer.save(serializer.validated_data)
         
         data = {
             'response': 'Successfully registered',
