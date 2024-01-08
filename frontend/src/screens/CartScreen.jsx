@@ -11,18 +11,26 @@ const CartScreen = () => {
 	const { id } = useParams();
 	const navigate = useNavigate();
 	const qty = Number(new URLSearchParams(window.location.search).get('qty'));
+	// const redirect = new URLSearchParams(location.search).get('redirect') || '/';
 	const dispatch = useDispatch();
+	const userLogin = useSelector(state => state.userLogin);
+	const { userInfo } = userLogin;
 
 	useEffect(() => {
 		if (id) {
 			dispatch(addToCart(id, qty));
 		}
 	}, [dispatch, id, qty]);
+
 	const removeFromCartHandler = (id) => {
         dispatch(removeFromCart(id))
     }
 	const checkoutHandler = () => {
-        navigate('/login?redirect=shipping')
+		if (!userInfo) {
+			navigate('/login?redirect=shipping')
+		} else {
+			navigate('/shipping')
+		}
     }
 
 	const cart = useSelector(state => state.cart)
