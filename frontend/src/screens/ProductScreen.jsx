@@ -20,7 +20,6 @@ const ProductScreen = () => {
   const navigate = useNavigate();
 
   const addToCartHandler = () => {
-    // console.log('Clicked', id)
     navigate(`/cart/${id}?qty=${qty}`);
   }
   return (

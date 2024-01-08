@@ -4,16 +4,20 @@ import { composeWithDevTools } from '@redux-devtools/extension';
 import { productListReducers, productDetailReducers } from './reducers/ProductReducers';
 import { cartReducer } from './reducers/cartReducers';
 import { userReducer, newUserReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers';
-
+import { orderCreateReducer } from './reducers/orderReducers';
 
 const reducer = combineReducers({
 	productList: productListReducers,
 	productDetail: productDetailReducers,
+
 	cart: cartReducer,
+
 	userLogin: userReducer,
 	userRegister: newUserReducer,
 	userDetails: userDetailsReducer,
-	userUpdateProfile: userUpdateProfileReducer
+	userUpdateProfile: userUpdateProfileReducer,
+
+	orderCreate: orderCreateReducer,
 });
 
 const middleware = [thunk];
