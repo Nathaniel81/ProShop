@@ -48,3 +48,22 @@ class AddOrderItemsView(generics.CreateAPIView):
 
         serializer = OrderSerializer(order, many=False)
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+class GetOrderView(generics.RetrieveAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'pk'
+
+    def get(self, request, *args, **kwargs):
+        user = request.user
+        try:
+            instance = self.get_object()
+            if user.is_staff or instance.user == user:
+                serializer = self.get_serializer(instance)
+                return Response(serializer.data)
+            else:
+                return Response({'detail': 'Not authorized to view this order'},
+                                status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
