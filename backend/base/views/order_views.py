@@ -4,6 +4,7 @@ from rest_framework.permissions import IsAuthenticated
 from datetime import datetime
 from base.models import Order, OrderItem, Product, ShippingAddress
 from base.serializers import OrderSerializer
+from rest_framework.decorators import permission_classes, api_view
 
 class AddOrderItemsView(generics.CreateAPIView):
     permission_classes = [IsAuthenticated]
@@ -82,3 +83,11 @@ class UpdateOrderToPaidView(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'detail': 'Order was paid'})
+
+class GetMyOrdersView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+    def get_queryset(self):
+        user = self.request.user
+        orders = user.order_set.all()
+        return orders
