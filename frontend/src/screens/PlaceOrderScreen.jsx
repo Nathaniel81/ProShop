@@ -22,11 +22,15 @@ const PlaceOrderScreen = () => {
 	const navigate = useNavigate()
 
     useEffect(() => {
+        if (!cart.paymentMethod) {
+            navigate('/payment')
+        }
         if (success) {
             navigate(`/order/${order._id}`)
             dispatch({ type: ORDER_CREATE_RESET })
         }
-    }, [order, dispatch, success, navigate])
+
+    }, [order, dispatch, success, navigate, cart])
 
 
     const placeOrder = () => {
@@ -41,10 +45,6 @@ const PlaceOrderScreen = () => {
         }))
     }
 
-
-	if (!cart.paymentMethod) {
-        navigate('/payment')
-    }
   return (
 	<div>
 		<CheckoutSteps step1 step2 step3 step4 />

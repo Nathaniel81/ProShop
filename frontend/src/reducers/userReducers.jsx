@@ -84,7 +84,6 @@ export const newUserReducer = (state = {}, action) => {
     }
 }
 
-
 export const userUpdateProfileReducer = (state = {}, action) => {
     switch (action.type) {
         case USER_UPDATE_PROFILE_REQUEST:

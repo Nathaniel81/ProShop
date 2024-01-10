@@ -59,6 +59,11 @@ export const createOrder = (order) => async (dispatch, getState) => {
             payload: data
         })
 
+        // dispatch({
+        //     type: ORDER_DETAILS_SUCCESS,
+        //     payload: data
+        // })
+
         dispatch({
             type: CART_CLEAR_ITEMS,
             payload: data
@@ -91,12 +96,12 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${userInfo.token.access}`
             }
         }
 
         const { data } = await axios.get(
-            `/api/orders/${id}/`,
+            `http://127.0.0.1:8000/api/orders/${id}/`,
             config
         )
 
@@ -131,12 +136,12 @@ export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token}`
+                Authorization: `Bearer ${userInfo.token.access}`
             }
         }
 
         const { data } = await axios.put(
-            `/api/orders/${id}/pay/`,
+            `http://127.0.0.1:8000/api/orders/${id}/pay/`,
             paymentResult,
             config
         )
