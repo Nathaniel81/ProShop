@@ -1,6 +1,7 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from datetime import datetime
 from base.models import Order, OrderItem, Product, ShippingAddress
 from base.serializers import OrderSerializer
 
@@ -67,3 +68,17 @@ class GetOrderView(generics.RetrieveAPIView):
                                 status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({'detail': 'Order does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+class UpdateOrderToPaidView(generics.UpdateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'pk'
+    def update(self, request, *args, **kwargs):
+        order = self.get_object()
+        order.isPaid = True
+        order.paidAt = datetime.now()
+        serializer = self.get_serializer(order, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'detail': 'Order was paid'})

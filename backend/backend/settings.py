@@ -151,9 +151,9 @@ from datetime import timedelta
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(days=10),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=11),
-    # "TOKEN_OBTAIN_SERIALIZER": "base.serializers.MyTokenObtainPairSerializer",
 }
 
+    # "TOKEN_OBTAIN_SERIALIZER": "base.serializers.MyTokenObtainPairSerializer",
 
 MEDIA_ROOT = BASE_DIR / 'static/images'
 # STATIC_ROOT = BASE_DIR / 'staticfiles'
