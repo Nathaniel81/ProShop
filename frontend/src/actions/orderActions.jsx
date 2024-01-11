@@ -44,7 +44,7 @@ export const createOrder = (order) => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token.access}`
+                Authorization: `Bearer ${userInfo.token}`
             }
         }
 
@@ -96,7 +96,7 @@ export const getOrderDetails = (id) => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token.access}`
+                Authorization: `Bearer ${userInfo.token}`
             }
         }
 
@@ -136,7 +136,7 @@ export const payOrder = (id, paymentResult) => async (dispatch, getState) => {
         const config = {
             headers: {
                 'Content-type': 'application/json',
-                Authorization: `Bearer ${userInfo.token.access}`
+                Authorization: `Bearer ${userInfo.token}`
             }
         }
 
@@ -222,7 +222,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
         }
 
         const { data } = await axios.get(
-            `/api/orders/myorders/`,
+            ` http://127.0.0.1:8000/api/orders/myorders/`,
             config
         )
 

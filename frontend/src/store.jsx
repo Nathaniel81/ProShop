@@ -3,8 +3,21 @@ import { thunk } from 'redux-thunk';
 import { composeWithDevTools } from '@redux-devtools/extension';
 import { productListReducers, productDetailReducers } from './reducers/ProductReducers';
 import { cartReducer } from './reducers/cartReducers';
-import { userReducer, newUserReducer, userDetailsReducer, userUpdateProfileReducer } from './reducers/userReducers';
-import { orderCreateReducer, orderDetailsReducer, orderPayReducer } from './reducers/orderReducers';
+import { 
+	userReducer,
+	newUserReducer,
+	userDetailsReducer,
+	userUpdateProfileReducer, 
+	userListReducer, 
+	userDeleteReducer, 
+	userUpdateReducer 
+} from './reducers/userReducers';
+import { 
+	orderCreateReducer,
+	orderDetailsReducer, 
+	orderPayReducer, 
+	orderListMyReducer 
+} from './reducers/orderReducers';
 
 const reducer = combineReducers({
 	productList: productListReducers,
@@ -16,10 +29,14 @@ const reducer = combineReducers({
 	userRegister: newUserReducer,
 	userDetails: userDetailsReducer,
 	userUpdateProfile: userUpdateProfileReducer,
+	userList: userListReducer,
+	userDelete: userDeleteReducer,
+	userUpdate: userUpdateReducer,
 
 	orderCreate: orderCreateReducer,
 	orderDetails: orderDetailsReducer,
 	orderPay: orderPayReducer,
+	orderListMy: orderListMyReducer
 });
 
 const middleware = [thunk];
