@@ -1,4 +1,5 @@
 from rest_framework import generics
+from django.shortcuts import get_object_or_404
 from base.serializers import MyTokenObtainPairSerializer, UserSerializer, RegistrationSerializer, UserSerializerWithToken
 from rest_framework.response import Response
 from rest_framework_simplejwt.views import TokenObtainPairView
@@ -49,3 +50,26 @@ class RegistrationView(generics.CreateAPIView):
             'token': serializedData.get('token')
         }
         return Response(data)
+class DeleteUserView(generics.DestroyAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+        self.perform_destroy(instance)
+        return Response('User was deleted')
+class GetUserByIdView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAdminUser]
+
+    def get_object(self):
+        return get_object_or_404(User, id=self.kwargs['pk'])
+class UpdateUserView(generics.UpdateAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+
+    def get_object(self):
+        print(self.request.data)
+        return get_object_or_404(User, id=self.kwargs['pk'])
