@@ -222,7 +222,7 @@ export const listMyOrders = () => async (dispatch, getState) => {
         }
 
         const { data } = await axios.get(
-            ` http://127.0.0.1:8000/api/orders/myorders/`,
+            `http://127.0.0.1:8000/api/orders/myorders/`,
             config
         )
 
@@ -261,7 +261,7 @@ export const listOrders = () => async (dispatch, getState) => {
         }
 
         const { data } = await axios.get(
-            `/api/orders/`,
+            `http://127.0.0.1:8000/api/orders/`,
             config
         )
 
