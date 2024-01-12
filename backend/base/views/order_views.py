@@ -1,6 +1,6 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from datetime import datetime
 from base.models import Order, OrderItem, Product, ShippingAddress
 from base.serializers import OrderSerializer
@@ -91,3 +91,8 @@ class GetMyOrdersView(generics.ListAPIView):
         user = self.request.user
         orders = user.order_set.all()
         return orders
+
+class GetOrdersView(generics.ListAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]

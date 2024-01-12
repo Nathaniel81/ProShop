@@ -5,7 +5,7 @@ from base.models import Product
 from base.serializers import ProductSerializer
 # from django.contrib.auth.models import User
 from rest_framework.response import Response
-# from rest_framework.decorators import permission_classes
+from rest_framework.decorators import permission_classes, api_view
 
 
 class ProductList(generics.ListAPIView):
@@ -78,3 +78,15 @@ class UpdateProductView(generics.UpdateAPIView):
 
     #     serializer = self.get_serializer(product)
     #     return self.get_response(serializer.data)
+
+@api_view(['POST'])
+def uploadImage(request):
+    data = request.data
+
+    product_id = data['product_id']
+    product = Product.objects.get(_id=product_id)
+
+    product.image = request.FILES.get('image')
+    product.save()
+
+    return Response('Image was uploaded')

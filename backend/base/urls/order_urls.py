@@ -4,7 +4,7 @@ from base.views import order_views as views
 
 urlpatterns = [
 
-    # path('', views.getOrders, name='orders'),
+    path('', views.GetOrdersView.as_view(), name='orders'),
     path('add/', views.AddOrderItemsView.as_view(), name='orders-add'),
     path('myorders/', views.GetMyOrdersView.as_view(), name='myorders'),
     
