@@ -10,7 +10,7 @@ urlpatterns = [
 	path('delete/<str:pk>/', views.DeleteProductView.as_view(), name="product-delete"),
 	path('update/<str:pk>/', views.UpdateProductView.as_view(), name="product-update"),
  
-	path('upload/', views.uploadImage, name="image-upload"),
-	# path('upload/', views.UploadImageView.as_view(), name="image-upload"),
+	# path('upload/', views.uploadImage, name="image-upload"),
+	path('upload/', views.UploadImageView.as_view(), name="image-upload"),
  
 ]

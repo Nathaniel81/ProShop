@@ -40,25 +40,6 @@ class CreateProductView(generics.CreateAPIView):
             category='Sample Category',
             description=''
         )
-
-# @api_view(['PUT'])
-# @permission_classes([IsAdminUser])
-# def updateProduct(request, pk):
-#     data = request.data
-#     product = Product.objects.get(_id=pk)
-
-#     product.name = data['name']
-#     product.price = data['price']
-#     product.brand = data['brand']
-#     product.countInStock = data['countInStock']
-#     product.category = data['category']
-#     product.description = data['description']
-
-#     product.save()
-
-#     serializer = ProductSerializer(product, many=False)
-#     return Response(serializer.data)
-
 class UpdateProductView(generics.UpdateAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -79,14 +60,17 @@ class UpdateProductView(generics.UpdateAPIView):
     #     serializer = self.get_serializer(product)
     #     return self.get_response(serializer.data)
 
-@api_view(['POST'])
-def uploadImage(request):
-    data = request.data
+class UploadImageView(generics.CreateAPIView):
+    def create(self, request, *args, **kwargs):
+        data = request.data
+        product_id = data['product_id']
+        
+        try:
+            product = Product.objects.get(_id=product_id)
+        except Product.DoesNotExist:
+            return Response({'detail': 'Product not found'}, status=404)
 
-    product_id = data['product_id']
-    product = Product.objects.get(_id=product_id)
+        product.image = request.FILES.get('image')
+        product.save()
 
-    product.image = request.FILES.get('image')
-    product.save()
-
-    return Response('Image was uploaded')
+        return Response('Image was uploaded')

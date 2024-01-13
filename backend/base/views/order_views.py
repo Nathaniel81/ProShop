@@ -83,7 +83,17 @@ class UpdateOrderToPaidView(generics.UpdateAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'detail': 'Order was paid'})
-
+class UpdateOrderToDeliverdView(generics.UpdateAPIView):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+    lookup_field = 'pk'
+    def update(self, request, *args, **kwargs):
+        order = self.get_object()
+        order.isDelivered = True
+        order.deliveredAt = datetime.now()
+        order.save()
+        return Response('Order was delivered')
 class GetMyOrdersView(generics.ListAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
@@ -91,7 +101,6 @@ class GetMyOrdersView(generics.ListAPIView):
         user = self.request.user
         orders = user.order_set.all()
         return orders
-
 class GetOrdersView(generics.ListAPIView):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
