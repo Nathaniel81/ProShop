@@ -20,6 +20,9 @@ const OrderScreen = () => {
 
 	const orderDetails = useSelector(state => state.orderDetails)
     const { order, error, loading } = orderDetails
+
+    const orderDeliver = useSelector(state => state.orderDeliver)
+    const { loading: loadingDeliver, success: successDeliver } = orderDeliver
 	
 	const userLogin = useSelector(state => state.userLogin)
 	const { userInfo } = userLogin
@@ -32,6 +35,10 @@ const OrderScreen = () => {
 
 	const successPaymentHandler = (paymentResult) => {
         dispatch(payOrder(id, paymentResult))
+    }
+
+    const deliverHandler = () => {
+        dispatch(deliverOrder(order))
     }
 
 	if (!loading && !error) {
@@ -54,9 +61,9 @@ const OrderScreen = () => {
 		if (!userInfo) {
 			navigate('/login')
 		}
-		if (!order || successPay || order._id !== Number(id)) {
+		if (!order || successPay || order._id !== Number(id) || successDeliver) {
             dispatch({ type: ORDER_PAY_RESET })
-            // dispatch({ type: ORDER_DELIVER_RESET })
+            dispatch({ type: ORDER_DELIVER_RESET })
 
             dispatch(getOrderDetails(id))
 		} else if (!order.isPaid) {
@@ -66,7 +73,7 @@ const OrderScreen = () => {
                 setSdkReady(true)
             }
         }
-	}, [dispatch, navigate, userInfo, order, id, successPay]);
+	}, [dispatch, navigate, userInfo, order, id, successPay, successDeliver]);
 
 
   return loading  ? (<Loader />) :
@@ -178,18 +185,18 @@ const OrderScreen = () => {
                                 </ListGroup.Item>
                             )}
                         </ListGroup>
-                        {/* {loadingDeliver && <Loader />}
-                        {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && ( */}
+                        {loadingDeliver && <Loader />}
+                        {userInfo && userInfo.isAdmin && order.isPaid && !order.isDelivered && (
                             <ListGroup.Item>
                                 <Button
                                     type='button'
                                     className='btn btn-block'
-                                    // onClick={deliverHandler}
+                                    onClick={deliverHandler}
                                 >
                                     Mark As Delivered
                                 </Button>
                             </ListGroup.Item>
-                        {/* )} */}
+                        )}
                     </Card>
 				</Col>
 			</Row>
