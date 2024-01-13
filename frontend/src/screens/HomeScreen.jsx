@@ -5,15 +5,23 @@ import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Products from '../components/Products';
 import { listProducts } from '../actions/productActions';
+import { useLocation } from 'react-router-dom';
+
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
+  const { search } = useLocation();
+
   const productList = useSelector((state) => state.productList);
   const { error, loading, products } = productList;
 
+  const queryParams = new URLSearchParams(search);
+  const keyword = queryParams.get('keyword');
+  const queryStr = keyword ? `?keyword=${keyword}` : '';
+
   useEffect(() => {
-    dispatch(listProducts());
-  }, [dispatch]);
+    dispatch(listProducts(queryStr));
+  }, [dispatch, queryStr]);
 
   return (
     <div>
