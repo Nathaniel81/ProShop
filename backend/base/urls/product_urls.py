@@ -13,5 +13,6 @@ urlpatterns = [
 	path('upload/', views.UploadImageView.as_view(), name="image-upload"),
 	# path('<str:pk>/reviews/', views.createProductReview, name="create-review"),
 	path('<str:pk>/reviews/', views.CreateProductReviewView.as_view(), name="create-review"),
+	 path('top/', views.getTopProducts, name='top-products'),
 
 ]

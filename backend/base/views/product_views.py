@@ -3,21 +3,34 @@ from django.shortcuts import get_object_or_404
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from rest_framework.decorators import permission_classes, api_view
 from base.models import Product, Review
 from base.serializers import ProductSerializer
 # from django.contrib.auth.models import User
-
-
 class ProductList(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
     def get(self, request, *args, **kwargs):
         search_param = self.request.query_params.get('keyword', '')
         queryset = self.queryset.filter(name__icontains=search_param)
-        serializer = self.serializer_class(queryset, many=True)
-        return Response(serializer.data)
 
+        page = self.request.query_params.get('page', 1)
+        paginator = Paginator(queryset, 5)
+        # print(self.request.GET, self.request.GET.get('page')) 
+        print(search_param)
+        # page = int(page)
+
+        try:
+            products = paginator.page(page)
+        except PageNotAnInteger:
+            products = paginator.page(1)
+        except EmptyPage:
+            products = paginator.page(paginator.num_pages)
+
+        serializer = self.serializer_class(products, many=True)
+        return Response({'products': serializer.data, 'page': page, 'pages': paginator.num_pages})
 class ProductDetail(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
@@ -117,4 +130,8 @@ class CreateProductReviewView(generics.CreateAPIView):
 
             return Response('Review Added')
             
-
+@api_view(['GET'])
+def getTopProducts(request):
+    products = Product.objects.filter(rating__gte=1).order_by('-rating')[0:5]
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
