@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
+import Paginate from '../components/Paginate'
 import { listProducts, deleteProduct, createProduct } from '../actions/productActions'
 
 function ProductListScreen() {
@@ -12,7 +13,7 @@ function ProductListScreen() {
     const dispatch = useDispatch()
 
     const productList = useSelector(state => state.productList)
-    const { loading, error, products } = productList
+    const { loading, error, products, pages, page } = productList
 
 	const navigate = useNavigate()
 
@@ -25,14 +26,22 @@ function ProductListScreen() {
     const productDelete = useSelector(state => state.productDelete)
     const { loading: loadingDelete, error: errorDelete, success: successDelete } = productDelete
 
-	let keyword = new URLSearchParams(location.search).get('search') || ''
+	// let keyword = new URLSearchParams(location.search).get('search') || ''
+        // let navLink = `/admin/productlist/?keyword=${keyword}&page=${1}`;
+        // console.log(navLink.split('/admin/productlist/')[1]);
+        const params = new URLSearchParams(location.search).get('keyword');
+        let keyword = params ? `?keyword=${params}&page=${page}` : ''
+        // params ? keyword = `?keyword=${params}`: ''
+        // console.log()
+        // navigate(navLink);
+        // dispatch(listProducts(navLink.split('/admin/productlist/')[1]))
+    // console.log(keyword)
     useEffect(() => {
         if (!userInfo.isAdmin) {
             navigate('/login')
         }
 
         if (successCreate) {
-            console.log('Product create exists')
             navigate(`/admin/product/${createdProduct._id}/edit`)
         } else {
             dispatch(listProducts(keyword))
@@ -110,6 +119,7 @@ function ProductListScreen() {
                                     ))}
                                 </tbody>
                             </Table>
+                            <Paginate pages={pages} page={page} isAdmin={true} />
                         </div>
                     )}
         </div>

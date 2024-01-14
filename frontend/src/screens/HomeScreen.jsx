@@ -4,27 +4,31 @@ import { Row, Col } from 'react-bootstrap';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Products from '../components/Products';
+import Paginate from '../components/Paginate';
 import { listProducts } from '../actions/productActions';
 import { useLocation } from 'react-router-dom';
+import ProductCarousel from '../components/ProductCarousel'
 
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
-  const { search } = useLocation();
 
   const productList = useSelector((state) => state.productList);
-  const { error, loading, products } = productList;
+  const { error, loading, products, page, pages } = productList
 
-  const queryParams = new URLSearchParams(search);
-  const keyword = queryParams.get('keyword');
-  const queryStr = keyword ? `?keyword=${keyword}` : '';
-
+  const location = useLocation();
+  let keywords = location.pathname + location.search
+  if (keywords === '/'){
+    keywords = ''
+  } 
+  console.log(keywords)  
   useEffect(() => {
-    dispatch(listProducts(queryStr));
-  }, [dispatch, queryStr]);
+    dispatch(listProducts(keywords));
+  }, [dispatch, keywords]);
 
   return (
     <div>
+      {!keywords && <ProductCarousel />}
       <h1>Latest Products</h1>
       {loading ? (
         <Loader />
@@ -39,7 +43,7 @@ const HomeScreen = () => {
               </Col>
             ))}
           </Row>
-          {/* <Paginate page={page} pages={pages} keyword={keyword} /> */}
+          <Paginate page={page} pages={pages} keywords={keywords} />
         </div>
       )}
     </div>
